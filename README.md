@@ -5,9 +5,9 @@
 
 Repositorio de archivos del curso de **Ciencia de datos para la toma de decisiones** impartido en el Tec de Monterrey en el semestre de Otoño-Invierno del 2025. 
 
-**Profesores: ** M.C. Jorge Juvenal Campos Ferreira y Jose Manuel Toral.
+**Profesores:** M.C. Jorge Juvenal Campos Ferreira y Jose Manuel Toral.
 
-**Objetivo del curso: ** Diseñe, implemente y comunique soluciones de ciencia de datos de forma integral, combinando el uso de programación en R, análisis estadístico, IA generativa, procesamiento de texto, análisis geoespacial y manejo de datos a gran escala, de tal forma que le ayuden a la toma de decisiones estratégicas basadas en evidencia. 
+**Objetivo del curso:** Diseñe, implemente y comunique soluciones de ciencia de datos de forma integral, combinando el uso de programación en R, análisis estadístico, IA generativa, procesamiento de texto, análisis geoespacial y manejo de datos a gran escala, de tal forma que le ayuden a la toma de decisiones estratégicas basadas en evidencia. 
 
 ## Temario
 
@@ -112,19 +112,19 @@ En esta sección tendremos la lista de lecturas recomendadas del curso. Las lect
 
 A continuación, se enlistan algunas de las herramientas a utilizar durante el curso. Esta lista se ampliará a lo largo del semestre, de ser necesario. 
 
-* **R: ** https://www.r-project.org
+* **R:** https://www.r-project.org
 
-* **RStudio: ** https://posit.co/download/rstudio-desktop/ 
+* **RStudio:** https://posit.co/download/rstudio-desktop/ 
 
 * **DuckDB:** https://duckdb.org/docs/installation/?version=stable&environment=cli&platform=macos&download_method=direct
 
 Herramientas de IA: 
 
-* **Claude Code: ** https://docs.anthropic.com/en/docs/claude-code/setup 
+* **Claude Code:** https://docs.anthropic.com/en/docs/claude-code/setup 
 
-* **Gemini CLI: ** https://github.com/google-gemini/gemini-cli 
+* **Gemini CLI:** https://github.com/google-gemini/gemini-cli 
 
-* **Codex CLI: ** https://github.com/openai/codex
+* **Codex CLI:** https://github.com/openai/codex
 
 ## Horarios de oficina
 
