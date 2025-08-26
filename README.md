@@ -34,7 +34,7 @@ Repositorio de archivos del curso de **Ciencia de datos para la toma de decision
 * 3.1 INTRODUCCIÓN AL PROCESAMIENTO NATURAL DE TEXTO (NLP)
 * 3.2 ESTADÍSTICAS BÁSICAS DE TEXTO
 * 3.3 REGULAR EXPRESSIONS
-* 3.4 PROCESAMIENTO DE HTML CON BEAUTIFUL SOUP (Web Scraping)
+* 3.4 Web Scraping con Rvest
 * 3.5 REDES Y TEXTO NO ESTRUCTURADO (grafos, enlaces).
 * 3.6 DESCARGA DE TEXTO NO ESTRUCTURADO DE INTERNET
 * 3.7 Descarga de datos desde APIs
@@ -95,7 +95,7 @@ En la carpeta vendrá 1) una carpeta con los archivos necesarios para llevar a c
 Los ejercicios se grabarán a solicitud de los estudiantes, si así lo demandasen y si el ejercicio lo permite. 
 
 
-## Lista de lecturas, videos y cursos online recomendadas. 
+## Lista de lecturas, videos y cursos online recomendados. 
 
 En esta sección tendremos la lista de lecturas recomendadas del curso. Las lecturas no son obligatorias, pero es recomendable para tener la bibliografía a la mano. Igualmente, dada la naturaleza de la materia y de las herramientas (recientes, poca literatura, literatura que se queda obsoleta pronto), se incluye una lista de cursos recomendados para que, ahora o en un futuro cercano, puedan complementar la formación. 
 
@@ -107,6 +107,11 @@ En esta sección tendremos la lista de lecturas recomendadas del curso. Las lect
 
 *   Curso de Claude Code (en inglés, gratis, con registro): https://anthropic.skilljar.com/claude-code-in-action
 
+**Clase 3. Ciencia de datos**
+
+* Ciencia de datos para Gente Sociable (gratis, de LinkedIN) https://www.linkedin.com/posts/estacion-r_rtip-bibliograf%C3%ADa-est%C3%A1s-activity-7353397174426071043-PJo0?utm_source=share&utm_medium=member_desktop&rcm=ACoAACZ8xU8Bimk-ytwLVBsU9M2BYR8Ivc-RsIw 
+
+* ¿Cómo generar valor público a partir del análisis de datos abiertos? https://juvecampos.github.io/presentaciones/lnpp_tech/como_generar_valor_publico_a_partir_de_datos_abiertos_masterclass_lnpp.pdf 
 
 ## Herramientas
 
