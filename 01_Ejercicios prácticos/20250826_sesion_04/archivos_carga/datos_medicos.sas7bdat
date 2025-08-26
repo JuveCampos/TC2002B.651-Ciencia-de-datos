@@ -1,0 +1,16 @@
+SAS     SAS7BDAT    9.4     X64_10PRO      26AUG23:10:30:15   19:54:32
+HEADER  CREATED       26AUG2023:10:30:15
+NOTE: This is a placeholder SAS file. Real SAS7BDAT files require SAS software to generate properly.
+For R usage, install the 'haven' package which can read SAS files.
+
+Sample medical data structure:
+- patient_id: Patient identifier
+- age: Patient age
+- gender: M/F
+- blood_pressure_sys: Systolic blood pressure
+- blood_pressure_dia: Diastolic blood pressure  
+- cholesterol: Total cholesterol level
+- diabetes: 0/1 indicator
+- bmi: Body mass index
+- treatment_group: A/B/C
+- outcome_score: Treatment outcome (0-100)

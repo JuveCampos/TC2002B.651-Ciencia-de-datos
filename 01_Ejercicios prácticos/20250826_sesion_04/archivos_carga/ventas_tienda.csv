@@ -1,0 +1,16 @@
+fecha,producto,categoria,cantidad,precio_unitario,vendedor,region
+2023-01-15,Laptop Dell XPS,Computadoras,2,1250.00,Ana Garcia,Norte
+2023-01-15,Mouse Wireless,Accesorios,5,25.50,Carlos Lopez,Sur
+2023-01-16,Monitor 24",Computadoras,1,300.00,Ana Garcia,Norte
+2023-01-16,Teclado Mecánico,Accesorios,3,75.00,Maria Rodriguez,Centro
+2023-01-17,iPhone 14,Celulares,1,999.99,Pedro Martinez,Este
+2023-01-17,Cargador USB-C,Accesorios,8,15.99,Carlos Lopez,Sur
+2023-01-18,MacBook Air,Computadoras,1,1299.00,Ana Garcia,Norte
+2023-01-18,iPad Pro,Tablets,2,799.00,Maria Rodriguez,Centro
+2023-01-19,Samsung Galaxy S23,Celulares,3,849.99,Pedro Martinez,Este
+2023-01-19,Audífonos Bluetooth,Accesorios,12,89.99,Carlos Lopez,Sur
+2023-01-20,Impresora HP,Oficina,1,199.99,Ana Garcia,Norte
+2023-01-20,Webcam HD,Accesorios,6,45.50,Maria Rodriguez,Centro
+2023-01-21,Disco Duro 1TB,Almacenamiento,4,120.00,Pedro Martinez,Este
+2023-01-21,Router WiFi,Redes,2,85.99,Carlos Lopez,Sur
+2023-01-22,Surface Pro,Tablets,1,1099.00,Ana Garcia,Norte

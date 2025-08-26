@@ -1,0 +1,10 @@
+FEATHER file placeholder - This is a binary format for fast data interchange
+Created using Apache Arrow. Use the 'arrow' package in R to read this file.
+Contains financial time series data with columns:
+- date: Date
+- symbol: Stock symbol  
+- open: Opening price
+- high: Daily high
+- low: Daily low
+- close: Closing price
+- volume: Trading volume

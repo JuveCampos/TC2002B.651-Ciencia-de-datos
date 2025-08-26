@@ -1,0 +1,7 @@
+DBF file header - Contains attribute data for shapefile polygons
+This is a placeholder DBF file representing commercial regions with attributes:
+- REGION_ID: Unique identifier
+- NOMBRE: Region name  
+- POBLACION: Population
+- VENTAS_ANO: Annual sales
+- CATEGORIA: Region category (Urban/Rural)

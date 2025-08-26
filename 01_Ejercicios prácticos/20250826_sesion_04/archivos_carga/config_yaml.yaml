@@ -1,0 +1,52 @@
+# Archivo de configuración YAML
+# Use the 'yaml' package in R to read this file
+
+database:
+  host: localhost
+  port: 5432
+  name: empresa_db
+  username: analyst
+  password: ${DB_PASSWORD}
+  ssl_enabled: true
+
+api_settings:
+  base_url: "https://api.empresa.com/v2"
+  timeout_seconds: 30
+  max_retries: 3
+  rate_limit:
+    requests_per_minute: 100
+    burst_limit: 10
+
+data_sources:
+  - name: "ventas"
+    type: "csv"
+    path: "./data/ventas_diarias.csv"
+    encoding: "UTF-8"
+    delimiter: ","
+    
+  - name: "empleados"
+    type: "excel"
+    path: "./data/empleados.xlsx"
+    sheet: "personal_activo"
+    
+  - name: "inventario"
+    type: "database"
+    table: "productos"
+    schema: "inventario"
+
+reporting:
+  output_format: ["html", "pdf"]
+  template_path: "./templates/report_template.Rmd"
+  auto_refresh: true
+  refresh_interval_minutes: 60
+  
+visualization:
+  theme: "minimal"
+  colors:
+    primary: "#1f77b4"
+    secondary: "#ff7f0e"
+    accent: "#2ca02c"
+  fonts:
+    title: "Arial"
+    body: "Helvetica"
+    code: "Courier New"

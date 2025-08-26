@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "nombre": "Tienda Madrid Centro",
+        "direccion": "Gran Vía 28, Madrid",
+        "tipo": "Principal",
+        "empleados": 25,
+        "ventas_mensuales": 125000,
+        "fecha_apertura": "2018-03-15"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-3.7037902, 40.4167754]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "nombre": "Tienda Barcelona Eixample",
+        "direccion": "Passeig de Gràcia 92, Barcelona",
+        "tipo": "Principal",
+        "empleados": 30,
+        "ventas_mensuales": 148000,
+        "fecha_apertura": "2019-01-20"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.1734035, 41.3873974]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "nombre": "Tienda Valencia Centro",
+        "direccion": "Calle Colón 15, Valencia",
+        "tipo": "Sucursal",
+        "empleados": 18,
+        "ventas_mensuales": 89000,
+        "fecha_apertura": "2020-06-10"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.3762881, 39.4699075]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "nombre": "Tienda Sevilla Nervión",
+        "direccion": "Avenida Luis de Morales 3, Sevilla",
+        "tipo": "Sucursal",
+        "empleados": 20,
+        "ventas_mensuales": 95000,
+        "fecha_apertura": "2021-04-08"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-5.9844589, 37.3890924]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 5,
+        "nombre": "Tienda Bilbao Casco Viejo",
+        "direccion": "Plaza Nueva 8, Bilbao",
+        "tipo": "Sucursal",
+        "empleados": 15,
+        "ventas_mensuales": 72000,
+        "fecha_apertura": "2022-02-14"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-2.9249775, 43.2630126]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 6,
+        "nombre": "Almacén Madrid Sur",
+        "direccion": "Polígono Industrial Villaverde, Madrid",
+        "tipo": "Almacén",
+        "empleados": 45,
+        "ventas_mensuales": 0,
+        "fecha_apertura": "2017-11-30"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-3.7025600, 40.3587400]
+      }
+    }
+  ]
+}

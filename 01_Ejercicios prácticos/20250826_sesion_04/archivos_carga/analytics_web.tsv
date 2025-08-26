@@ -1,0 +1,16 @@
+fecha	pagina	sesiones	usuarios	duracion_promedio	tasa_rebote	conversiones	dispositivo	origen_trafico
+2023-08-01	/inicio	1250	980	00:03:45	0.65	32	desktop	organic
+2023-08-01	/productos	890	720	00:05:12	0.42	28	mobile	paid
+2023-08-01	/contacto	345	300	00:02:18	0.78	15	tablet	social
+2023-08-02	/inicio	1180	950	00:03:52	0.63	29	desktop	direct
+2023-08-02	/blog	567	480	00:04:35	0.55	8	mobile	organic
+2023-08-02	/carrito	234	200	00:06:42	0.35	45	desktop	email
+2023-08-03	/productos	978	800	00:05:28	0.41	35	mobile	paid
+2023-08-03	/categoria/electronica	456	380	00:04:15	0.52	18	tablet	organic
+2023-08-03	/checkout	123	110	00:08:30	0.28	67	desktop	direct
+2023-08-04	/inicio	1340	1050	00:03:38	0.67	38	mobile	social
+2023-08-04	/ofertas	612	520	00:03:58	0.48	22	desktop	paid
+2023-08-04	/ayuda	189	165	00:02:55	0.72	3	tablet	organic
+2023-08-05	/productos	1020	850	00:05:45	0.39	41	desktop	email
+2023-08-05	/perfil	298	280	00:07:12	0.32	12	mobile	direct
+2023-08-05	/buscar	445	390	00:02:42	0.68	9	tablet	social

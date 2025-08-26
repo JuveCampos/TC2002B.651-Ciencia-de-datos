@@ -1,0 +1,9 @@
+PAR1 Parquet file placeholder - Columnar storage format
+Use the 'arrow' package in R to read this file.
+Contains sales transaction data optimized for analytics:
+- transaction_id: Unique transaction identifier
+- customer_id: Customer ID
+- product_category: Product category
+- amount: Transaction amount
+- date: Transaction date
+- store_location: Store location
