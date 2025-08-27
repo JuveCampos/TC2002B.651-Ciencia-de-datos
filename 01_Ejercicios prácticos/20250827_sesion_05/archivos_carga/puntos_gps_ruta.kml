@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Ruta de Entrega - Puntos GPS</name>
+    <description>Puntos GPS de una ruta de entrega comercial</description>
+    
+    <Style id="deliveryPoint">
+      <IconStyle>
+        <color>ff0000ff</color>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    
+    <Style id="warehousePoint">
+      <IconStyle>
+        <color>ff00ff00</color>
+        <scale>1.5</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    
+    <Placemark>
+      <name>Almacén Central</name>
+      <description>Punto de inicio de la ruta - Almacén Central
+        Dirección: Polígono Industrial Norte
+        Hora salida: 08:00
+        Vehículo: Furgón FR-4567-BC</description>
+      <styleUrl>#warehousePoint</styleUrl>
+      <Point>
+        <coordinates>-3.7025600,40.3587400,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <Placemark>
+      <name>Entrega 1 - Centro Comercial Norte</name>
+      <description>Primera entrega del día
+        Hora estimada: 09:15
+        Paquetes: 15
+        Cliente: Centro Comercial Las Torres</description>
+      <styleUrl>#deliveryPoint</styleUrl>
+      <Point>
+        <coordinates>-3.6900000,40.4200000,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <Placemark>
+      <name>Entrega 2 - Oficinas Distrito Financiero</name>
+      <description>Segunda entrega
+        Hora estimada: 10:30
+        Paquetes: 8
+        Cliente: Torre Empresarial Azca</description>
+      <styleUrl>#deliveryPoint</styleUrl>
+      <Point>
+        <coordinates>-3.6886111,40.4505556,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <Placemark>
+      <name>Entrega 3 - Universidad Politécnica</name>
+      <description>Tercera entrega
+        Hora estimada: 12:00
+        Paquetes: 25
+        Cliente: Universidad Politécnica Madrid</description>
+      <styleUrl>#deliveryPoint</styleUrl>
+      <Point>
+        <coordinates>-3.7067778,40.4000000,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <Placemark>
+      <name>Entrega 4 - Hospital General</name>
+      <description>Cuarta entrega
+        Hora estimada: 13:45
+        Paquetes: 12
+        Cliente: Hospital General del Sur</description>
+      <styleUrl>#deliveryPoint</styleUrl>
+      <Point>
+        <coordinates>-3.7200000,40.3800000,0</coordinates>
+      </Point>
+    </Placemark>
+    
+    <Placemark>
+      <name>Entrega 5 - Centro Logístico Este</name>
+      <description>Última entrega del día
+        Hora estimada: 15:30
+        Paquetes: 18
+        Cliente: Plataforma Logística Este</description>
+      <styleUrl>#deliveryPoint</styleUrl>
+      <Point>
+        <coordinates>-3.6500000,40.4100000,0</coordinates>
+      </Point>
+    </Placemark>
+    
+  </Document>
+</kml>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalogo xmlns="http://empresa.com/catalog" version="2.1" fecha_actualizacion="2023-08-26">
+  <metadata>
+    <total_productos>5</total_productos>
+    <categorias>3</categorias>
+    <moneda>EUR</moneda>
+    <idioma>es</idioma>
+  </metadata>
+  
+  <productos>
+    <producto id="PROD001" activo="true">
+      <codigo_barras>1234567890123</codigo_barras>
+      <nombre>Laptop Dell XPS 13</nombre>
+      <descripcion>Laptop ultrabook de 13 pulgadas con procesador Intel i7</descripcion>
+      <categoria>
+        <id>CAT001</id>
+        <nombre>Computadoras</nombre>
+        <nivel>Electrónicos > Computadoras > Laptops</nivel>
+      </categoria>
+      <precio>
+        <venta>1299.99</venta>
+        <costo>950.00</costo>
+        <descuento_porcentaje>0</descuento_porcentaje>
+      </precio>
+      <inventario>
+        <stock_disponible>25</stock_disponible>
+        <stock_minimo>5</stock_minimo>
+        <almacen>ALM001</almacen>
+      </inventario>
+      <especificaciones>
+        <peso unidad="kg">1.2</peso>
+        <dimensiones>
+          <largo unidad="cm">29.6</largo>
+          <ancho unidad="cm">19.9</ancho>
+          <alto unidad="cm">1.4</alto>
+        </dimensiones>
+        <garantia_meses>24</garantia_meses>
+      </especificaciones>
+      <proveedor>
+        <id>PROV001</id>
+        <nombre>Dell Technologies</nombre>
+        <contacto>pedidos@dell.com</contacto>
+      </proveedor>
+    </producto>
+    
+    <producto id="PROD002" activo="true">
+      <codigo_barras>2345678901234</codigo_barras>
+      <nombre>iPhone 14 Pro</nombre>
+      <descripcion>Smartphone Apple con cámara de 48MP y chip A16 Bionic</descripcion>
+      <categoria>
+        <id>CAT002</id>
+        <nombre>Smartphones</nombre>
+        <nivel>Electrónicos > Celulares > Smartphones</nivel>
+      </categoria>
+      <precio>
+        <venta>1199.00</venta>
+        <costo>850.00</costo>
+        <descuento_porcentaje>5</descuento_porcentaje>
+      </precio>
+      <inventario>
+        <stock_disponible>15</stock_disponible>
+        <stock_minimo>3</stock_minimo>
+        <almacen>ALM002</almacen>
+      </inventario>
+      <especificaciones>
+        <peso unidad="g">206</peso>
+        <dimensiones>
+          <largo unidad="mm">147.5</largo>
+          <ancho unidad="mm">71.5</ancho>
+          <alto unidad="mm">7.9</alto>
+        </dimensiones>
+        <garantia_meses>12</garantia_meses>
+      </especificaciones>
+      <proveedor>
+        <id>PROV002</id>
+        <nombre>Apple Inc.</nombre>
+        <contacto>business@apple.com</contacto>
+      </proveedor>
+    </producto>
+    
+    <producto id="PROD003" activo="true">
+      <codigo_barras>3456789012345</codigo_barras>
+      <nombre>Monitor Samsung 27" 4K</nombre>
+      <descripcion>Monitor LED de 27 pulgadas con resolución 4K UHD</descripcion>
+      <categoria>
+        <id>CAT003</id>
+        <nombre>Monitores</nombre>
+        <nivel>Electrónicos > Computadoras > Monitores</nivel>
+      </categoria>
+      <precio>
+        <venta>349.99</venta>
+        <costo>280.00</costo>
+        <descuento_porcentaje>10</descuento_porcentaje>
+      </precio>
+      <inventario>
+        <stock_disponible>42</stock_disponible>
+        <stock_minimo>8</stock_minimo>
+        <almacen>ALM001</almacen>
+      </inventario>
+      <especificaciones>
+        <peso unidad="kg">5.8</peso>
+        <dimensiones>
+          <largo unidad="cm">61.3</largo>
+          <ancho unidad="cm">36.2</ancho>
+          <alto unidad="cm">8.9</alto>
+        </dimensiones>
+        <garantia_meses>36</garantia_meses>
+      </especificaciones>
+      <proveedor>
+        <id>PROV003</id>
+        <nombre>Samsung Electronics</nombre>
+        <contacto>b2b@samsung.com</contacto>
+      </proveedor>
+    </producto>
+    
+    <producto id="PROD004" activo="false">
+      <codigo_barras>4567890123456</codigo_barras>
+      <nombre>Teclado Mecánico Corsair</nombre>
+      <descripcion>Teclado mecánico gaming con switches Cherry MX Red</descripcion>
+      <categoria>
+        <id>CAT004</id>
+        <nombre>Accesorios</nombre>
+        <nivel>Electrónicos > Computadoras > Accesorios</nivel>
+      </categoria>
+      <precio>
+        <venta>129.99</venta>
+        <costo>85.00</costo>
+        <descuento_porcentaje>15</descuento_porcentaje>
+      </precio>
+      <inventario>
+        <stock_disponible>0</stock_disponible>
+        <stock_minimo>2</stock_minimo>
+        <almacen>ALM003</almacen>
+      </inventario>
+      <especificaciones>
+        <peso unidad="g">1200</peso>
+        <garantia_meses>24</garantia_meses>
+      </especificaciones>
+      <proveedor>
+        <id>PROV004</id>
+        <nombre>Corsair Gaming</nombre>
+        <contacto>orders@corsair.com</contacto>
+      </proveedor>
+    </producto>
+    
+    <producto id="PROD005" activo="true">
+      <codigo_barras>5678901234567</codigo_barras>
+      <nombre>Audífonos Sony WH-1000XM4</nombre>
+      <descripcion>Audífonos inalámbricos con cancelación de ruido activa</descripcion>
+      <categoria>
+        <id>CAT005</id>
+        <nombre>Audio</nombre>
+        <nivel>Electrónicos > Audio > Audífonos</nivel>
+      </categoria>
+      <precio>
+        <venta>279.99</venta>
+        <costo>200.00</costo>
+        <descuento_porcentaje>0</descuento_porcentaje>
+      </precio>
+      <inventario>
+        <stock_disponible>18</stock_disponible>
+        <stock_minimo>4</stock_minimo>
+        <almacen>ALM002</almacen>
+      </inventario>
+      <especificaciones>
+        <peso unidad="g">254</peso>
+        <garantia_meses>12</garantia_meses>
+        <conectividad>Bluetooth 5.0, NFC, Jack 3.5mm</conectividad>
+      </especificaciones>
+      <proveedor>
+        <id>PROV005</id>
+        <nombre>Sony Corporation</nombre>
+        <contacto>wholesale@sony.com</contacto>
+      </proveedor>
+    </producto>
+  </productos>
+</catalogo>

@@ -1,0 +1,25 @@
+2023-08-26 08:00:01 INFO [WebServer] Servidor iniciado en puerto 8080
+2023-08-26 08:00:02 INFO [Database] Conexión a base de datos establecida
+2023-08-26 08:15:23 INFO [Auth] Usuario admin inició sesión desde 192.168.1.100
+2023-08-26 08:16:45 INFO [API] GET /api/users - 200 OK - 125ms
+2023-08-26 08:17:12 INFO [API] POST /api/products - 201 Created - 89ms
+2023-08-26 08:18:33 WARN [Database] Consulta lenta detectada - 2.5s - SELECT * FROM orders WHERE date > '2023-01-01'
+2023-08-26 08:20:15 INFO [Auth] Usuario carlos_lopez inició sesión desde 10.0.0.15
+2023-08-26 08:22:41 ERROR [Payment] Error procesando pago - TransactionID: TXN-98765 - Tarjeta rechazada
+2023-08-26 08:25:10 INFO [API] GET /api/orders/1234 - 200 OK - 45ms
+2023-08-26 08:27:58 INFO [Cache] Cache Redis limpiado - 1,248 keys eliminadas
+2023-08-26 08:30:22 WARN [Security] Múltiples intentos de login fallidos desde 203.45.67.89
+2023-08-26 08:32:44 INFO [API] PUT /api/users/567 - 200 OK - 112ms
+2023-08-26 08:35:16 ERROR [FileSystem] No se pudo escribir archivo: /uploads/product_images/img_12345.jpg - Disco lleno
+2023-08-26 08:37:33 INFO [Backup] Backup automático iniciado
+2023-08-26 08:42:18 INFO [Backup] Backup completado - 2.1GB respaldado
+2023-08-26 08:45:55 INFO [Email] Notificación de pedido enviada a cliente@email.com
+2023-08-26 08:48:12 WARN [Performance] CPU al 87% - Proceso ID 4521 consumiendo recursos
+2023-08-26 08:50:34 INFO [API] DELETE /api/temp/files - 204 No Content - 23ms
+2023-08-26 08:52:47 ERROR [Network] Timeout conectando a servicio externo - api.proveedor.com:443
+2023-08-26 08:55:19 INFO [Maintenance] Limpieza de logs antiguos completada - 500MB liberados
+2023-08-26 09:00:00 INFO [Scheduler] Tarea programada ejecutada: actualizar_inventario
+2023-08-26 09:05:33 WARN [Database] Pool de conexiones al 90% de capacidad
+2023-08-26 09:08:21 INFO [Auth] Usuario maria_garcia cerró sesión
+2023-08-26 09:12:44 ERROR [Integration] Error sincronizando con CRM - HTTP 503 Service Unavailable
+2023-08-26 09:15:17 INFO [API] GET /api/reports/daily - 200 OK - 1.2s
