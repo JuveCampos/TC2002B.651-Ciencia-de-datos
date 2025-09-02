@@ -95,11 +95,65 @@ pobreza %>%
 # amarillo.
 
 bd_grafica <- pobreza %>% 
-  filter(anio == 2024)
+  filter(anio == 2024) %>% 
+  mutate(lugar = rank(-pobreza)) %>% 
+  select(entidad, lugar, anio, pobreza) %>% 
+  arrange(lugar) %>% 
+  mutate(color = case_when(lugar %in% c(1:10) ~ "rojo", 
+                           lugar %in% c(32:(32-10)) ~ "verde", 
+                           TRUE ~ "amarillo"))
 
 bd_grafica %>% 
-  ggplot(aes(x = reorder(entidad, pobreza), y = pobreza)) + 
-  geom_col() + coord_flip()
+  ggplot(aes(x = reorder(entidad, pobreza), 
+             y = pobreza, 
+             fill = color)) + 
+  geom_col() + 
+  coord_flip() + 
+  scale_fill_manual(values = c("rojo" = "red", 
+                               "amarillo" = "yellow", 
+                               "verde" = "green")) + 
+  labs(title = "Porcentaje de pobreza para 2024", 
+       x = "% de pobreza", 
+       y = "Entidad Federativa") + 
+  scale_y_continuous(expand = expansion(c(0, 0.5))) + 
+  theme_minimal() + 
+  theme(legend.position = "none", 
+        text = element_text(family = "Ubuntu"))
 
 # LO QUE FALTA LO HACEMOS EN CLASE LA SEMANA QUE VIENE
+
+serie_pobreza <- pobreza %>% 
+  filter(entidad == "Chiapas") %>% 
+  select(anio, entidad, pobreza_e)
+
+serie_pobreza %>% 
+  ggplot(aes(x = anio, y = pobreza_e)) + 
+  geom_line() + 
+  labs(title = "Evolución de la pobreza extrema", 
+       subtitle = paste("Estado de ", serie_pobreza$entidad[1])) + 
+  theme_minimal()
+
+ggsave(paste("grafica_serie_pobreza_extrema",serie_pobreza$entidad[1], ".png"), 
+       height = 5, width = 10, dpi = 200)
+
+for(edo in unique(pobreza$entidad)){
+  
+  serie_pobreza <- pobreza %>% 
+    filter(entidad == edo) %>% 
+    select(anio, entidad, pobreza_e)
+  
+  serie_pobreza %>% 
+    ggplot(aes(x = anio, y = pobreza_e)) + 
+    geom_line() + 
+    labs(title = "Evolución de la pobreza extrema", 
+         subtitle = paste("Estado de ", serie_pobreza$entidad[1])) + 
+    theme_minimal()
+  
+  ggsave(paste("graficas_lista/grafica_serie_pobreza_extrema",serie_pobreza$entidad[1], ".png"), 
+         height = 5, width = 10, dpi = 200)
+  
+  print(paste("Listo: ", edo))
+  
+}
+
 
