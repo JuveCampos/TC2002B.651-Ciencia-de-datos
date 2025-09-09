@@ -21,6 +21,24 @@ Repositorio de archivos del curso de **Ciencia de datos para la toma de decision
 * 1.3 K-MEANS.
 * 1.4 K-MEDOIDS.
 * 1.5 HIERARCHICAL CLUSTERING.
+
+### PROCESAMIENTO DE LENGUAJE NATURAL
+* 3.1 INTRODUCCIÓN AL PROCESAMIENTO NATURAL DE TEXTO (NLP)
+* 3.2 ESTADÍSTICAS BÁSICAS DE TEXTO
+* 3.3 REGULAR EXPRESSIONS
+* 3.4 WEB SCRAPING CON {`rvest`}
+* 3.5 REDES Y TEXTO NO ESTRUCTURADO (grafos, enlaces).
+* 3.6 DESCARGA DE TEXTO NO ESTRUCTURADO DE INTERNET
+* 3.7 Descarga de datos desde APIs
+
+### ARQUITECTURA DE DATOS (SQL)
+* 4.0 Diseñar bases de datos
+* 4.1 BASES DE DATOS: RELACIONALES (SQL), NO RELACIONALES (MONGO, DYNAMO), CSV Y JSON.
+* 4.2 INSTANCIAS, CÓMPUTO DISTRIBUIDO, PROCESAMIENTO EN PARALELO, CONTENEDORES Y MICROSERVICIOS.
+
+### Temas pospuestos
+
+### MODELOS BASADOS EN DISTANCIA
 * 1.6 Evaluar la calidad y utilidad de clusters en contextos reales
 * 1.7 Traducir los resultados en segmentos, grupos o patrones accionables
 
@@ -29,20 +47,6 @@ Repositorio de archivos del curso de **Ciencia de datos para la toma de decision
 * 2.1.1 Introducción al trabajo con datos espaciales (coordenadas, polígonos, shapefiles, etc.).
 * 2.2 MÉTODOS DE MEDICIÓN DE DISTRIBUCIONES GEOGRÁFICAS.
 * 2.3 IDENTIFICACIÓN DE PATRONES Y CLUSTERS EN ESPACIOS GEOGRÁFICOS.
-
-### PROCESAMIENTO DE LENGUAJE NATURAL
-* 3.1 INTRODUCCIÓN AL PROCESAMIENTO NATURAL DE TEXTO (NLP)
-* 3.2 ESTADÍSTICAS BÁSICAS DE TEXTO
-* 3.3 REGULAR EXPRESSIONS
-* 3.4 Web Scraping con Rvest
-* 3.5 REDES Y TEXTO NO ESTRUCTURADO (grafos, enlaces).
-* 3.6 DESCARGA DE TEXTO NO ESTRUCTURADO DE INTERNET
-* 3.7 Descarga de datos desde APIs
-
-### ARQUITECTURA DE DATOS
-* 4.0 Diseñar bases de datos
-* 4.1 BASES DE DATOS: RELACIONALES (SQL), NO RELACIONALES (MONGO, DYNAMO), CSV Y JSON.
-* 4.2 INSTANCIAS, CÓMPUTO DISTRIBUIDO, PROCESAMIENTO EN PARALELO, CONTENEDORES Y MICROSERVICIOS.
 
 ### DESARROLLO DE UNA NARRATIVA DE COMUNICACIÓN
 * 4.5.1 Presentación de hallazgos con datos para audiencias no técnicas
