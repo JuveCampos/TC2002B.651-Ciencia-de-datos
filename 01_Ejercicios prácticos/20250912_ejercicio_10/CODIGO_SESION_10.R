@@ -175,7 +175,7 @@ tabla2 <- tabla %>%
   mutate(modelo = str_replace(modelo, pattern = "Modelo", replacement = "Model")) %>% 
   filter(!is.na(modelo))
 
-
+# Gráficas Teslas
 tabla2 %>% 
   ggplot(aes(x = antiguedad, 
              y = precio_numerico,
@@ -325,7 +325,7 @@ yt_oauth(app_id     = "845276260238-td7nñqptbrndggsg07tm7r770hj05rat.apps.googl
 # Estas claves son falsas, las dejo para que vean como se deben de ver cuando ustedes consigan las suyas
 
 comentarios_video <- tuber::get_all_comments(video_id = "9ZyFkQv1bKo")
-openxlsx::write.xlsx(comentarios_video, "comentarios_video")
+openxlsx::write.xlsx(comentarios_video, "comentarios_video.xlsx")
 
 # Sugerencia: vean este video: https://www.youtube.com/watch?v=EPeDTRNKAVo
 # O este video: https://www.youtube.com/watch?v=79stB0NZkaA 
