@@ -302,7 +302,7 @@ library(tuber)
 library(ellmer)
 
 # 1. INEGI 
-mi_token_inegi <- "682ad7f9-19ge-47f2-abcd-e4c4ab2g2938" 
+mi_token_inegi <- "682ad7f9-19fe-47f0-abec-e4c2ab2f2948" 
 # Esta clave INEGI es falsa, la dejo para que vean como se debe de ver cuando consigan la suya
 
 pib_aguascalientes <- inegiR::inegi_series(series_id = 746098,

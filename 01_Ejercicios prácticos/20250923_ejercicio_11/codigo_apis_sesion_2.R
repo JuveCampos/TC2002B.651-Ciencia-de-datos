@@ -13,7 +13,8 @@ library(usethis)   # Acceso a variables de sistema
 usethis::edit_r_environ()
 
 # 1. Ejemplo: actividad de inegiR. ----
-mi_token_inegi <- Sys.getenv("INEGI_TOKEN") # Acceso a mi token de INEGI que tengo guardado en mi sistema. 
+mi_token_inegi <- "682ad7f9-19ge-47f2-abcd-e4c4ab2g2938"
+  # Sys.getenv("INEGI_TOKEN_2") # Acceso a mi token de INEGI que tengo guardado en mi sistema. 
 # Liga al API de INEGI: https://www.inegi.org.mx/servicios/api_indicadores.html
 # Los datos del PIBE (Pib estatal) estan en Constructor de consultas > BIE > Cuentas nacionales > Producto interno bruto por entidad federativa, base 2018 > Por actividad económica y entidad federativa > Valores a precios constantes de 2018 > Producto interno bruto, a precios de mercado
 
@@ -23,15 +24,40 @@ mi_token_inegi <- Sys.getenv("INEGI_TOKEN") # Acceso a mi token de INEGI que ten
 # Obtenga la proporción del PIB nacional que representa el estado de Morelos. 
 
 # Este código solo se trae el dato de Aguascalientes. 
+
 pib_estatal <- inegiR::inegi_series(series_id = 746098,
-                                           token = mi_token_inegi,
+                                           token = "682ad7f9-19fe-47f0-abec-e4c2ab2f2948",
                                            database = "BIE") 
+
+pib_morelos <- inegiR::inegi_series(series_id = 746114,
+                                    token = "682ad7f9-19fe-47f0-abec-e4c2ab2f2948",
+                                    database = "BIE") %>% 
+  rename(values_morelos = values)
+
+pib_nacional <- inegiR::inegi_series(series_id = 746097,
+                                    token = "682ad7f9-19fe-47f0-abec-e4c2ab2f2948",
+                                    database = "BIE") %>% 
+  rename(values_nacional = values)
+
+tabla_unida <- left_join(pib_morelos,pib_nacional) %>% 
+  mutate(pp = 100*(values_morelos/values_nacional))
+
+# 746097 Nacional
+# 746098 Aguascalientes
+# 746099 Baja California
+# 746129 Zacatecas
+length(746098:746129)
 
 # 2. spotifyr ----
 # Obtenga las 50 canciones más populares de Shakira: 
-access_token <- get_spotify_access_token()
+
+SPOTIFY_CLIENT_ID = "a25b2ce0d3ce4e13a39a70db83f5fba5"
+SPOTIFY_CLIENT_SECRET = "1cd654b8a78544d18a23f88987c86c7a"
+
+access_token <- get_spotify_access_token(client_id = SPOTIFY_CLIENT_ID, client_secret = SPOTIFY_CLIENT_SECRET)
 datos_shakira <- search_spotify("Shakira", type = "track", limit = 50) %>% arrange(-popularity)
 datos_shakira$name
+?get_spotify_access_token
 
 # 3. tuber ----
 
@@ -89,7 +115,4 @@ chat_gpt$chat("Hola, como estás?")
 chat_claudio <- chat_anthropic(api_key = Sys.getenv("ANTHROPIC_API_KEY"))
 chat_claudio$chat("Hola, como estás")
 
-
 # Actividad: Tome los primeros 20 comentarios del video anterior y analice si son discurso de odio o no. 
-
-
