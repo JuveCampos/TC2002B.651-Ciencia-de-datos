@@ -48,7 +48,9 @@ respuestas <- lapply(comentarios$textDisplay, function(c){
 # Si quieres ver el resultado, saltate a la parte donde guardamos los resultados en el excel. 
 
 # Estas solo las corre Juve: 
-chat_gpt <- chat_openai(api_key = "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")
+# Estos son mis tokens (modificadas)
+# Si decides contratar la API de paga, tendrás que poner acá tus contraseñas propias. 
+chat_gpt <- chat_openai(api_key = "sk-proj-jazZdRCfeS_jeEqrAdnTmTngwECRACylQ3GdYkqPPWtk6a4C7kxjzN6Sk3VFQNt91GMWCT3BlbkFwXuraJxSWuZACFualb6fGbOBWpf8pP8bLlkEtr32FWhNjQ2qIrric16fxSOQL4JT0QA")
 chat_gpt$chat("Hola, como estás?")
 
 # Actividad: Tome los primeros 100 comentarios del video del chicharito y analice si están a favor o en contra de su postura
