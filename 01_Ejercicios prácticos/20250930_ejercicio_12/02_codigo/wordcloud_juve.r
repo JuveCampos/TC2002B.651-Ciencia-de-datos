@@ -1,5 +1,4 @@
-# Texto de prueba 
-# txt <- "bienvenidos esto es fuera de la caja yo soy ... y le agradezco mucho que me escuche en esta revisión de la semana que termina el 29 de septiembre del 2024 yo estoy grabando para usted el día 30 de septiembre último día de Andrés Manuel López Obrador como presidente de la república Y usted espero me estará escuchando a partir ya de el gobierno de Claudia la primera presidenta en México una semana me parece que puede servirnos muy claramente para ejemplificar lo ocurrido durante este este gobierno tres ejemplos que me parecen muy importantes Acapulco Sinaloa y Chiapas Déjenme empezar por el primero Acapulco sufrieron huracán extraordinariamente fuerte otis el año pasado un huracán que se aceleró muy rápidamente incluso por encima de lo que estaban estimando los expertos Y bueno pues eh uno puede evaluar al la actuación del gobierno con cierta calma y decir bueno no podían saber que iba a entrar como huracán categoría 5 esperaban a la mejor que llegara a tres a una así no avisaron con tiempo eh Pero bueno pues la destrucción no podía evitarse eso no hay manera de hacerlo eh lo que no hubo fue una reacción de parte del "
+
 
 # Librerías
 library(tidyverse)
