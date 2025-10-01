@@ -5,6 +5,7 @@
 library(tidyverse)
 library(wordcloud2)
 library(tm)
+library(rebus)
 
 create_wordcloud <- function(data, 
                              stop_words = c(), 
