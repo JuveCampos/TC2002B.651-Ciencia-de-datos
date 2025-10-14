@@ -22,6 +22,9 @@ yt_oauth(app_id     = "736475268268-tp7nmqptblncggsf07pm8r880np01rat.apps.google
 comentarios <- get_all_comments(video_id = "7iJJYG7MrpQ")
 saveRDS(comentarios, "comentarios_video_sh.rds")
 
+# hcatn-d-TSo
+comentarios <- get_all_comments(video_id = "7iJJYG7MrpQ")
+
 # 4. ellmer ----
 
 # Con este código llamamos a Gemini a la sesión de R

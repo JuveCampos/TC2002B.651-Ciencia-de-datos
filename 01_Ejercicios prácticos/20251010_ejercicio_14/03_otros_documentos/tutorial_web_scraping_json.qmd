@@ -1,0 +1,332 @@
+---
+title: "Web Scraping con JSON Embebido en R"
+author: "Juvenal Campos"
+date: "11/oct/2025"
+format: html
+editor: visual
+---
+
+## Introducción
+
+El web scraping es una técnica para extraer datos de sitios web haciendo uso de su estructura HTML. Sin embargo, los muchos de los sitios web modernos presentan desafíos únicos debido a su arquitectura basada en *JavaScript* (el lenguaje de desarrollo web que se encarga de las funcionalidades de una página) y su renderizado dinámico.
+
+Este tutorial explica cómo extraer contenido de sitios que utilizan estos JSON embebidos, un patrón común en aplicaciones web contemporáneas.
+
+## Arquitecturas de Renderizado Web
+
+### Renderizado Tradicional (Server-Side Rendering - SSR)
+
+En el modelo tradicional de páginas web, el servidor genera HTML completo con todo el contenido:
+
+``` html
+<article>
+  <p>Párrafo 1 del artículo</p>
+  <p>Párrafo 2 del artículo</p>
+  <p>Párrafo 3 del artículo</p>
+</article>
+```
+
+Este enfoque es directo para web scraping: herramientas como las funciones de `rvest` pueden leer directamente los elementos `<p>` y extraer su contenido.
+
+### Renderizado del Lado del Cliente (Client-Side Rendering - CSR)
+
+Los sitios modernos, especialmente aquellos construidos con frameworks como **React, Vue o Angular**, funcionan de manera diferente:
+
+1.  El servidor envía **un HTML mínimo** con un contenedor vacío
+2.  **El contenido real está en formato JSON** dentro de un tag `<script>`
+3.  JavaScript del navegador lee ese JSON y **genera dinámicamente el HTML**
+4.  **El usuario ve el contenido** renderizado, pero el HTML original estaba **vacío**
+
+Estructura típica:
+
+``` html
+<script>
+  window.__INITIAL_STATE__ = {
+    "type": "storyline_paragraph",
+    "fields": {
+      "paragraph": {"value": "Párrafo 1 del artículo"}
+    }
+  }
+</script>
+
+<div id="root"></div>
+```
+
+### Renderizado Híbrido y SEO
+
+Muchos sitios web modernos utilizan un enfoque híbrido que combina lo mejor de ambos mundos. Aunque el sitio funciona como una aplicación JavaScript dinámica, también incluyen el contenido completo en formato JSON dentro del HTML inicial. Esta estrategia responde a necesidades técnicas y de negocio:
+
+**Optimización para Motores de Búsqueda (SEO)**
+
+Los motores de búsqueda como Google necesitan indexar el contenido de las páginas para mostrarlas en resultados de búsqueda. Aunque Google ejecuta JavaScript en cierta medida, este proceso es:
+
+-   Más lento y costoso computacionalmente
+-   Menos confiable que procesar HTML estático
+-   Puede fallar si hay errores en JavaScript
+
+Al incluir el contenido como JSON en el HTML inicial, los desarrolladores garantizan que:
+
+1.  **Los crawlers puedan leer el contenido inmediatamente** sin ejecutar JavaScript
+2.  **El tiempo de indexación sea más rápido**, mejorando el ranking SEO
+3.  **El contenido esté accesible incluso si JavaScript falla** o está deshabilitado
+
+**Renderizado del Lado del Servidor con Hidratación**
+
+Esta técnica se conoce como "Server-Side Rendering with Hydration" (SSR + Hidratación):
+
+1.  El servidor pre-renderiza el contenido como JSON
+2.  El navegador recibe HTML con datos estructurados
+3.  JavaScript "hidrata" estos datos, convirtiéndolos en componentes interactivos
+4.  El resultado es una experiencia rápida para el usuario y amigable para SEO
+
+**Ventajas para el Desarrollo**
+
+Este patrón también beneficia a los desarrolladores:
+
+-   **Separación de datos y presentación**: el JSON actúa como API interna
+-   **Consistencia**: mismos datos para renderizado inicial y actualizaciones dinámicas
+-   **Rendimiento**: el navegador no necesita hacer peticiones adicionales para obtener datos
+-   **Caché eficiente**: el contenido completo está disponible desde la primera carga
+
+## Caso de Estudio: El Sol de Toluca
+
+El sitio web de El Sol de Toluca (oem.com.mx) utiliza esta arquitectura híbrida. Los artículos se estructuran en JSON con el siguiente formato:
+
+``` json
+{
+  "id": "af7f6d72-48c9-4184-ba5f-469a81d8a017",
+  "type": "storyline_paragraph",
+  "fields": {
+    "paragraph": {
+      "value": "En el Estado de México continúan detectándose...",
+      "annotations": [...]
+    }
+  }
+}
+```
+
+### Implementación del Web Scraper
+
+#### Librerías Necesarias
+
+```{r}
+#| eval: false
+
+# Instalación de paquetes (ejecutar solo una vez)
+install.packages(c("rvest", "stringr"))
+```
+
+```{r}
+#| message: false
+#| warning: false
+
+# Cargar librerías
+library(rvest)
+library(stringr)
+```
+
+#### Función de Extracción de Párrafos
+
+La función principal utiliza expresiones regulares para identificar y extraer los párrafos del JSON embebido:
+
+```{r}
+extraer_parrafos <- function(json_text) {
+  # Patrón regex para encontrar párrafos en el JSON
+  # Busca: "type": "storyline_paragraph" ... "paragraph": {"value": "TEXTO"}
+  patron <- '"type"\\s*:\\s*"storyline_paragraph"[^}]+?"paragraph"\\s*:\\s*\\{\\s*"value"\\s*:\\s*"([^"]+)"'
+
+  # Extraer todas las coincidencias
+  matches <- str_match_all(json_text, patron)[[1]]
+
+  if (nrow(matches) > 0) {
+    # La segunda columna contiene el texto capturado
+    parrafos <- matches[, 2]
+
+    # Limpiar caracteres escapados comunes en JSON
+    parrafos <- gsub("\\\\n", "\n", parrafos)  # Saltos de línea
+    parrafos <- gsub('\\\\"', '"', parrafos)   # Comillas
+
+    return(parrafos)
+  }
+
+  return(character(0))
+}
+```
+
+**Explicación del patrón regex:**
+
+-   `"type"\\s*:\\s*"storyline_paragraph"` - Identifica el tipo de contenido
+-   `[^}]+?` - Captura cualquier contenido hasta la siguiente llave (no-greedy)
+-   `"paragraph"\\s*:\\s*\\{\\s*"value"\\s*:\\s*"` - Navega hasta el valor del párrafo
+-   `([^"]+)` - **Grupo de captura**: extrae el texto entre comillas
+
+#### Script Completo
+
+```{r}
+#| eval: false
+
+# URL del artículo a extraer
+url <- "https://oem.com.mx/elsoldetoluca/local/persisten-vinculos-entre-crimen-y-gobiernos-municipales-del-edomex-omar-garcia-harfuch-26189634"
+
+# Leer el HTML de la página
+pagina <- read_html(url)
+
+# Extraer todos los scripts de la página
+scripts <- pagina %>%
+  html_nodes("script") %>%
+  html_text()
+
+# Buscar el script que contiene los párrafos del artículo
+json_script <- NULL
+for (script in scripts) {
+  if (str_detect(script, "storyline_paragraph")) {
+    json_script <- script
+    break
+  }
+}
+
+# Verificar si se encontró el JSON
+if (!is.null(json_script)) {
+  # Extraer los párrafos usando la función definida
+  parrafos <- extraer_parrafos(json_script)
+
+  if (length(parrafos) > 0) {
+    cat("Total de párrafos extraídos:", length(parrafos), "\n\n")
+
+    # Crear un dataframe con los resultados
+    df_parrafos <- data.frame(
+      numero = 1:length(parrafos),
+      texto = parrafos,
+      stringsAsFactors = FALSE
+    )
+
+    # Guardar en CSV con codificación UTF-8
+    write.csv(df_parrafos,
+              "parrafos_articulo.csv",
+              row.names = FALSE,
+              fileEncoding = "UTF-8")
+
+    cat("Párrafos guardados en 'parrafos_articulo.csv'\n")
+
+    # Mostrar los primeros 3 párrafos como ejemplo
+    cat("\nPrimeros 3 párrafos:\n")
+    for (i in 1:min(3, length(parrafos))) {
+      cat("\n--- Párrafo", i, "---\n")
+      cat(parrafos[i], "\n")
+    }
+  }
+} else {
+  cat("No se encontró contenido JSON en la página\n")
+}
+```
+
+## ¿Por Qué Este Método Funciona?
+
+### Extracción desde JSON
+
+El método basado en JSON funciona porque:
+
+1.  **`rvest::read_html()` captura el HTML inicial** tal como lo envía el servidor
+2.  **El JSON está presente en ese HTML inicial** dentro de tags `<script>`
+3.  **No se requiere ejecución de JavaScript** - el contenido ya está disponible
+4.  **Las expresiones regulares pueden parsear** la estructura JSON embebida
+
+### Por Qué Fallaría la Extracción HTML Tradicional
+
+Si intentáramos extraer con el método tradicional:
+
+```{r}
+#| eval: false
+
+# Este método NO funcionaría en este sitio
+parrafos <- pagina %>%
+  html_nodes("p") %>%
+  html_text()
+```
+
+Fallaría porque:
+
+1.  Los elementos `<p>` **no existen en el HTML inicial**
+2.  JavaScript los crea **después** de que la página carga
+3.  `rvest` **no ejecuta JavaScript** - solo lee HTML estático
+4.  El resultado sería un vector vacío o con contenido irrelevante
+
+## Alternativas Cuando el JSON No Está Disponible
+
+Si un sitio no incluye JSON en el HTML inicial, se requieren técnicas más avanzadas:
+
+### RSelenium - Automatización de Navegador
+
+```{r}
+#| eval: false
+
+library(RSelenium)
+
+# Iniciar un navegador controlado
+rD <- rsDriver(browser = "firefox", port = 4545L)
+remDr <- rD$client
+
+# Navegar a la URL
+remDr$navigate(url)
+
+# Esperar a que JavaScript renderice el contenido
+Sys.sleep(3)
+
+# Ahora sí extraer el HTML renderizado
+html_renderizado <- remDr$getPageSource()[[1]]
+pagina <- read_html(html_renderizado)
+
+# Cerrar el navegador
+remDr$close()
+rD$server$stop()
+```
+
+**Ventajas:** - Ejecuta JavaScript como un navegador real - Puede interactuar con elementos dinámicos - Funciona con cualquier sitio moderno
+
+**Desventajas:** - Mucho más lento (segundos vs milisegundos) - Requiere instalación de navegadores y drivers - Mayor consumo de recursos - Más complejo de mantener
+
+### APIs Alternativas
+
+Algunos sitios ofrecen APIs públicas o privadas:
+
+```{r}
+#| eval: false
+
+library(httr)
+library(jsonlite)
+
+# Ejemplo hipotético de API
+response <- GET("https://api.ejemplo.com/articulos/123")
+datos <- fromJSON(content(response, "text"))
+parrafos <- datos$content$paragraphs
+```
+
+## Consideraciones Éticas y Legales
+
+Al realizar web scraping, es fundamental:
+
+1.  **Respetar el archivo robots.txt** del sitio
+2.  **No sobrecargar el servidor** con peticiones excesivas
+3.  **Revisar los términos de servicio** del sitio web
+4.  **Dar crédito apropiado** al contenido extraído
+5.  **Usar los datos de forma responsable** y legal
+
+## Conclusiones
+
+La extracción de contenido de sitios web modernos requiere comprender las arquitecturas de renderizado contemporáneas. El patrón de JSON embebido ofrece una oportunidad eficiente para web scraping cuando está disponible, evitando la complejidad y el costo de automatización de navegadores.
+
+La elección entre diferentes técnicas depende de:
+
+-   La arquitectura del sitio objetivo
+-   Los requisitos de velocidad y escala
+-   Los recursos computacionales disponibles
+-   La frecuencia de actualización del contenido
+
+El método presentado en este tutorial representa un punto intermedio ideal: más eficiente que la automatización de navegadores, pero más robusto que el scraping HTML simple.
+
+## Referencias y Recursos Adicionales
+
+-   Documentación de `rvest`: https://rvest.tidyverse.org/
+-   Tutorial de expresiones regulares en R: https://stringr.tidyverse.org/articles/regular-expressions.html
+-   Guía de RSelenium: https://docs.ropensci.org/RSelenium/
+-   Mejores prácticas de web scraping: https://www.scrapingbee.com/blog/web-scraping-best-practices/
