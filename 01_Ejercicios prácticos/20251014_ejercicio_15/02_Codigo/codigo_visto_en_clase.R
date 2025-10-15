@@ -40,7 +40,7 @@ comentarios_limpio <- comentarios %>%
                                           "crimen organizado" = "crimen_organizado", 
                                           "gobierno mexicano" = "gobierno", 
                                           "redes sociales" = "redes_sociales"
-                                          ))) %>% 
+                                        ))) %>% 
   mutate(id = 1:nrow(.)) %>% 
   unnest_tokens(output = "palabra", input = textOriginal, token = "words") %>% 
   anti_join(stop_words, by = c("palabra" = "palabras"))

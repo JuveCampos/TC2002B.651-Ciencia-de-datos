@@ -4,7 +4,8 @@ library(httr2)
 library(jsonlite)
 
 comentarios <- readxl::read_xlsx("01_Datos/comentarios_little_america.xlsx") %>% 
-  unique()
+  unique() %>% 
+  head(30)
 
 # Prompt o instrucción
 # prompt_text <- "¿Consideras que este comentario es ofensivo? Estaba en un video en el que se discutía la nueva propuesta de impuestos a videojuegos violentos para el próximo año:"
@@ -32,6 +33,8 @@ evaluar <- function(comentario, modelo_sel = "llama3.1:latest"){
   result$response
   
 }
+
+evaluar("No a la Gentrificación")
 
 bolsa_vacia <- tibble()
 

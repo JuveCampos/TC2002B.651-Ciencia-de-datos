@@ -6,6 +6,7 @@ library(rvest)
 library(httr)
 library(jsonlite)
 library(stringr)
+library(tidyverse)
 
 # URL del artículo
 url <- "https://oem.com.mx/elsoldetoluca/local/persisten-vinculos-entre-crimen-y-gobiernos-municipales-del-edomex-omar-garcia-harfuch-26189634"
@@ -128,7 +129,7 @@ extaer_texto_pagina_individual <- function(url){
 extaer_texto_pagina_individual(url = "https://oem.com.mx/elsoldetoluca/local/reducen-edad-para-acceder-al-programa-mujeres-con-bienestar-26219179")
 
 # Extraemos listas para extraer más artículos. 
-# j = 0
+j = 0
 
 url_general <- str_c("https://oem.com.mx/elsoldetoluca/tags/temas/seguridad?page=", j) # Código de la página cero
 
