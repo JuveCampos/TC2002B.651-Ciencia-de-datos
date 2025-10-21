@@ -12,27 +12,34 @@ library(stopwords)
 library(glue)
 library(ellmer)
 
+# Para obtener las credenciales del API de Youtube:
+# # Sugerencia: vean este video: https://www.youtube.com/watch?v=EPeDTRNKAVo
+# O este video: https://www.youtube.com/watch?v=79stB0NZkaA 
+# O los dos. 
+# Es un proceso que puede ser un poco más complicado de lo normal para las tokens de los APIs, 
+# pero si lo logran, les va a servir también para otras APIs de Google. 
+
 # ---- 1) Autenticación (OAuth) ----
 # Crea credenciales OAuth 2.0 en Google Cloud (Desktop app)
 # Credenciales cambiadas para que pongan las suyas
 if (file.exists(".httr-oauth")) unlink(".httr-oauth")
-yt_oauth(app_id     = "736475268268-tp7nmqptblncggsf07pm8r880np01rat.apps.googleusercontent.com",
-         app_secret = "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")
+yt_oauth(app_id     = "936475268268-tp7nmqptblncggsf07pm7r770np01rat.apps.googleusercontent.com",
+         app_secret = "G1CSPX-i1sCptqTLhTita7h7pB5UXolO6up")
 
+# Video: El polémico (y machista) mensaje de "Chicharito" a las mujeres: "Están erradicando la masculinidad"
 comentarios <- get_all_comments(video_id = "7iJJYG7MrpQ")
 saveRDS(comentarios, "comentarios_video_sh.rds")
-
-# hcatn-d-TSo
-comentarios <- get_all_comments(video_id = "7iJJYG7MrpQ")
 
 # 4. ellmer ----
 
 # Con este código llamamos a Gemini a la sesión de R
 # Ponga sus propias credenciales. Estas están modificadas, ya que no les puedo compartir las mias.
 # (por lo que les comenté en clase)
+usethis::edit_r_environ()
+
 chat <- chat_google_gemini(
   base_url = "https://generativelanguage.googleapis.com/v1beta/",
-  api_key = "AIzaSyA339Z-XkHuf415M15YaI3Alek12wksD6O"
+  api_key = "AIzaSyA439Z-XkHuf415M15YaI3Ajek12whsD6o"
 )
 
 # Probamos la conexión 
@@ -40,11 +47,10 @@ chat$chat("Hola Gemini! ¿Cómo estás?")
 chat$chat(str_c("Podrías decir si este comentario es ofensivo o no? Solo dime si SI o si NO",
                 comentarios$textDisplay[30]))
 
-respuestas <- lapply(comentarios$textDisplay, function(c){
+respuestas <- lapply(comentarios$textDisplay[1:10], function(c){
   chat$chat(str_c("Podrías decir si este comentario es ofensivo o no? Solo dime si SI o si NO",
                   c))
 })
-# El codigo previo va a tronar porque le estamos diciendo que clasifique casi 4000 comentarios, pero solo tenemos derecho a 10 consultas en la versión gratuita
 
 # Acá lo hacemos con la de ChatGPT. 
 # Recuerda que esto es de paga. 
@@ -53,7 +59,7 @@ respuestas <- lapply(comentarios$textDisplay, function(c){
 # Estas solo las corre Juve: 
 # Estos son mis tokens (modificadas)
 # Si decides contratar la API de paga, tendrás que poner acá tus contraseñas propias. 
-chat_gpt <- chat_openai(api_key = "sk-proj-jazZdRCfeS_jeEqrAdnTmTngwECRACylQ3GdYkqPPWtk6a4C7kxjzN6Sk3VFQNt91GMWCT3BlbkFwXuraJxSWuZACFualb6fGbOBWpf8pP8bLlkEtr32FWhNjQ2qIrric16fxSOQL4JT0QA")
+chat_gpt <- chat_openai(api_key = "sk-proj-jazZdRCfeS_jeEqrAdnTmTngwECRACylQ4GdYkqPPWtk6a4C7kxjzN6Sk3VFQNt91GMWCT3BlbkFwXuraJxSWuZACFualb6fGbOBWpf8pP8bLlkEtr32FWhNjQ2qIrric16fxSOQL4JT0QA")
 chat_gpt$chat("Hola, como estás?")
 
 # Actividad: Tome los primeros 100 comentarios del video del chicharito y analice si están a favor o en contra de su postura
