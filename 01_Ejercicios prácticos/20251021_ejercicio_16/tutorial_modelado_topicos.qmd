@@ -1,0 +1,695 @@
+---
+title: "Tutorial: Modelado de Tópicos con LDA"
+subtitle: "Análisis de texto mediante Latent Dirichlet Allocation"
+author: "Curso de Ciencia de Datos"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    code-fold: false
+    theme: cosmo
+    number-sections: true
+    highlight-style: github
+editor: visual
+---
+
+# Introducción
+
+## ¿Qué es el Modelado de Tópicos?
+
+El **modelado de tópicos** (topic modeling) es una técnica de aprendizaje no supervisado que permite descubrir temas "ocultos" o "latentes" en una colección de documentos de texto. Es especialmente útil cuando tenemos grandes volúmenes de texto y queremos identificar automáticamente los temas principales que se discuten.
+
+**Aplicaciones comunes:**
+
+-   Análisis de artículos periodísticos
+-   Clasificación de documentos académicos
+-   Análisis de opiniones en redes sociales
+-   Organización de correos electrónicos
+-   Descubrimiento de tendencias en investigación científica
+
+## ¿Qué es LDA?
+
+**LDA (Latent Dirichlet Allocation)** es el algoritmo más popular para modelado de tópicos. Fue desarrollado por David Blei, Andrew Ng y Michael Jordan en 2003.
+
+### Supuestos del modelo:
+
+1.  Cada **documento** es una mezcla de tópicos
+2.  Cada **tópico** es una mezcla de palabras
+3.  Las distribuciones siguen una distribución de Dirichlet
+
+### Conceptos clave:
+
+-   **Tema/Tópico**: Conjunto de palabras relacionadas con una temática específica
+-   **Documento**: Unidad de análisis (artículo, tweet, párrafo, etc.)
+-   **Corpus**: Colección completa de documentos
+
+------------------------------------------------------------------------
+
+# Configuración del Entorno
+
+## Librerías necesarias
+
+```{r}
+#| label: librerias
+#| message: false
+#| warning: false
+
+# Text Mining: funciones básicas para minería de texto
+library(tm)
+
+# Topic Models: implementa algoritmos de modelado de tópicos (LDA)
+library(topicmodels)
+
+# Tidy Text: análisis de texto con enfoque tidy
+library(tidytext)
+
+# Tidyverse: manipulación y visualización de datos
+library(tidyverse)
+
+# Lectura de archivos Excel
+library(readxl)
+
+# Construcción de expresiones regulares
+library(rebus)
+
+# Lematización y etiquetado gramatical (NLP)
+library(udpipe)
+```
+
+------------------------------------------------------------------------
+
+# Carga y Preparación de Datos
+
+## Lectura de datos
+
+Para este tutorial, utilizamos artículos periodísticos previamente scrapeados de la web.
+
+```{r}
+#| label: carga-datos
+#| eval: true
+#| message: false
+#| warning: false
+
+# Cargar artículos desde archivo Excel
+articulos_juve <- read_excel("01_datos/tabla_archivos_juve.xlsx") %>%
+  select(titulos, textos) %>%        # Seleccionar columnas relevantes
+  mutate(id = 1:nrow(.)) %>%         # Crear ID único para cada documento
+  relocate(id, .before = titulos)    # Mover ID al principio
+
+# Visualizar estructura
+glimpse(articulos_juve)
+```
+
+**Estructura de los datos:**
+
+-   `id`: Identificador único del documento
+-   `titulos`: Título del artículo
+-   `textos`: Contenido completo del artículo
+
+------------------------------------------------------------------------
+
+# Preprocesamiento de Texto
+
+El preprocesamiento es **crucial** para el éxito del modelado de tópicos. Textos mal procesados generan temas incoherentes.
+
+## Pipeline de limpieza
+
+::: callout-note
+## Nota: ¿Qué es un pipeline?
+
+Un **pipeline** (tubería o flujo de trabajo) es una secuencia ordenada de pasos de procesamiento donde la salida de un paso se convierte en la entrada del siguiente. En procesamiento de texto, cada paso transforma los datos de manera incremental hasta obtener el formato deseado.
+:::
+
+```{r}
+#| label: preprocesamiento
+#| eval: true
+#| message: false
+#| warning: false
+
+# PASO 1: Generar stopwords (palabras vacías)
+stop_words <- stopwords(kind = "spanish")
+# Ejemplos: "el", "la", "de", "en", "y", "a", etc.
+
+# PASO 2: Agregar límites de palabra a stopwords
+stopwords_2 <- str_c("\\b", stop_words, "\\b")
+# \\b asegura que solo se eliminen palabras completas
+# Evita eliminar "la" dentro de "palabra"
+
+# PASO 3: Limpieza completa del texto
+articulos_juve2 <- articulos_juve %>%
+  # 3.1: Normalización a minúsculas
+  mutate(textos = str_to_lower(textos)) %>%
+
+  # 3.2: Eliminar puntuación
+  mutate(textos = str_remove_all(textos, pattern = "[:punct:]")) %>%
+
+  # 3.3: Eliminar stopwords
+  mutate(textos = str_remove_all(textos, c(or1(stopwords_2)))) %>%
+
+  # 3.4: Unir n-gramas importantes
+  # Convertir frases de varias palabras en un solo token
+  mutate(textos = str_replace_all(textos, c(
+    "redes sociales" = "redes_sociales",
+    "medio comunicación" = "medio_comunicacion",
+    "inteligencia artificial" = "inteligencia_artificial",
+    "\\bia\\b" = "inteligencia_artificial",
+    "nuevo león" = "nuevo_león",
+    "ciudad méxico" = "ciudad_de_méxico",
+    "jornada laboral" = "jornada_laboral"
+  ))) %>%
+
+  # 3.5: Eliminar espacios múltiples
+  mutate(textos = str_squish(textos))
+```
+
+::: callout-tip
+## ¿Por qué unir n-gramas?
+
+Frases como "inteligencia artificial" tienen más significado juntas que separadas. Al unirlas con guiones bajos, el modelo las tratará como un solo término, capturando mejor el contexto.
+:::
+
+------------------------------------------------------------------------
+
+# Lematización
+
+## ¿Qué es la lematización?
+
+La **lematización** convierte las palabras a su forma base o raíz:
+
+-   "corrieron" → "correr"
+-   "mejores" → "bueno"
+-   "hablando" → "hablar"
+
+Esto reduce la dimensionalidad y agrupa variaciones de la misma palabra.
+
+## Implementación con UDPipe
+
+```{r}
+#| label: lematizacion
+#| eval: true
+#| message: false
+#| warning: false
+
+# Descargar y cargar modelo de español
+modelo <- udpipe_download_model(language = "spanish")
+udmodel <- udpipe_load_model(modelo$file_model)
+
+# Proceso de lematización y filtrado
+lemas_juve <- udpipe_annotate(udmodel, x = articulos_juve2$textos) %>%
+  as_tibble() %>%
+
+  # Extraer ID del documento
+  mutate(id = str_extract(doc_id, pattern = "\\d+")) %>%
+
+  # Seleccionar columnas importantes
+  select(id, token, lemma, upos) %>%
+
+  # Filtrar puntuación
+  filter(upos != "PUNCT") %>%
+
+  # Eliminar números
+  mutate(is.number = str_detect(lemma, pattern = "\\d")) %>%
+  filter(!is.number) %>%
+
+  # Filtrado adicional manual
+  filter(!(lemma %in% c("él", "hacer", "poder", "año", "bien", "cada", "solo")))
+```
+
+### Columnas generadas por UDPipe:
+
+| Columna | Descripción                                           |
+|---------|-------------------------------------------------------|
+| `token` | Palabra original del texto                            |
+| `lemma` | Forma base de la palabra                              |
+| `upos`  | Etiqueta gramatical universal (NOUN, VERB, ADJ, etc.) |
+
+------------------------------------------------------------------------
+
+# Creación de la Matriz DTM
+
+## ¿Qué es una DTM?
+
+Una **Matriz Documento-Término** (Document-Term Matrix) es una representación numérica donde:
+
+-   Cada **fila** = un documento
+-   Cada **columna** = un término único
+-   Cada **celda** = frecuencia del término en ese documento
+
+**Ejemplo:**
+
+|      | perro | gato | casa | jardín |
+|------|-------|------|------|--------|
+| Doc1 | 2     | 0    | 1    | 0      |
+| Doc2 | 0     | 3    | 1    | 2      |
+| Doc3 | 1     | 1    | 0    | 1      |
+
+## Código
+
+```{r}
+#| label: dtm
+#| eval: true
+#| message: false
+#| warning: false
+
+dtm_juve <- lemas_juve %>%
+  group_by(id, lemma) %>%
+  count() %>%                      # Contar frecuencias
+  cast_dtm(document = id,          # Convertir a formato DTM
+           term = lemma,
+           value = n)
+
+# Visualizar estructura (primeras columnas)
+dtm_juve %>% as.matrix() %>% as_tibble() %>% select(1:10)
+```
+
+::: callout-note
+## Nota
+
+Las DTM suelen ser matrices **sparse** (dispersas), con muchos ceros, porque cada documento solo contiene un subconjunto pequeño del vocabulario total.
+:::
+
+------------------------------------------------------------------------
+
+# Modelado LDA
+
+## Ajuste del modelo
+
+```{r}
+#| label: modelo-lda
+#| eval: true
+#| message: false
+#| warning: false
+
+lda_juve <- LDA(
+  x = dtm_juve,           # Matriz DTM de entrada
+  k = 5,                  # Número de temas (hiperparámetro)
+  method = "Gibbs",       # Método de muestreo
+  control = list(
+    seed = 1111           # Semilla para reproducibilidad
+  )
+)
+```
+
+### Parámetros importantes:
+
+-   **k**: Número de tópicos a descubrir (debe elegirse cuidadosamente)
+-   **method**: Método de inferencia a utilizar
+    -   **"Gibbs"** (Muestreo de Gibbs): Técnica de Markov Chain Monte Carlo (MCMC) que genera muestras de la distribución posterior iterativamente. Actualiza cada variable una a la vez, manteniendo las demás fijas. Es más lento pero generalmente más preciso.
+    -   **"VEM"**: Variational Expectation-Maximization, una alternativa más rápida pero puede ser menos precisa
+-   **seed**: Semilla aleatoria para asegurar resultados reproducibles
+
+------------------------------------------------------------------------
+
+# Interpretación de Resultados
+
+## Matriz Beta (β)
+
+**Definición:** La matriz **Beta (β)** contiene la probabilidad de cada palabra dado un tema.
+
+**Notación matemática (probabilidad condicional):**
+
+$$P(\text{palabra} \mid \text{tema}) = \beta$$
+
+Esto se lee: "La probabilidad de observar una **palabra** dado que estamos en un **tema** específico es igual a beta".
+
+**Pregunta que responde:** "Si estoy hablando del tema Z, ¿qué tan probable es que use la palabra W?"
+
+**Ejemplo práctico:** Si el tema es "deportes", palabras como "gol", "partido", "equipo" tendrán valores altos de β.
+
+```{r}
+#| label: matriz-beta
+#| eval: true
+#| message: false
+#| warning: false
+
+# Extraer matriz beta
+betas_juve <- tidy(lda_juve, matrix = "beta")
+
+# Ver palabras del tema 2
+betas_juve %>%
+  filter(topic == 2) %>%
+  arrange(-beta) %>%
+  print(n = 50)
+```
+
+### Visualización: Top 10 palabras por tema
+
+```{r}
+#| label: grafica-beta
+#| eval: true
+#| fig-width: 10
+#| fig-height: 6
+
+bd_plot <- betas_juve %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10)
+
+bd_plot %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(x = term, y = beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~str_c("Tema ", topic), scales = "free") +
+  coord_flip() +
+  scale_x_reordered() +
+  labs(
+    title = "Palabras con mayor probabilidad por tema",
+    x = "Término",
+    y = "Probabilidad (β)"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+## Matriz Gamma (γ)
+
+**Definición:** La matriz **Gamma (γ)** contiene la probabilidad de cada tema dado un documento.
+
+**Notación matemática (probabilidad condicional):**
+
+$$P(\text{tema} \mid \text{documento}) = \gamma$$
+
+Esto se lee: "La probabilidad de que un **tema** esté presente dado un **documento** específico es igual a gamma".
+
+**Pregunta que responde:** "Si estoy leyendo el documento D, ¿qué proporción de él trata sobre el tema Z?"
+
+**Ejemplo práctico:** Un artículo sobre Copa del Mundo podría tener γ = 0.7 para "deportes", γ = 0.2 para "noticias internacionales" y γ = 0.1 para "economía".
+
+```{r}
+#| label: matriz-gamma
+#| eval: true
+#| message: false
+#| warning: false
+
+# Extraer matriz gamma
+gammas_juve <- tidy(lda_juve, matrix = "gamma")
+
+# Crear catálogos
+catalogo_articulos <- articulos_juve2 %>%
+  select(id, titulo = titulos) %>%
+  unique()
+
+catalogo_temas <- tibble(
+  topic = 1:5,
+  tema = c(
+    "Estadísticas nacionales y laborales",
+    "Estadísticas locales de Coahuila",
+    "Artículos de IA",
+    "Artículos de Economía y finanzas",
+    "Artículos de Elecciones"
+  )
+)
+
+# Enriquecer gammas con metadatos
+gammas_juve <- tidy(lda_juve, matrix = "gamma") %>%
+  mutate(document = as.numeric(document)) %>%
+  arrange(document, -gamma) %>%
+  left_join(catalogo_articulos, by = c("document" = "id")) %>%
+  left_join(catalogo_temas, by = "topic")
+```
+
+### Clasificación de documentos
+
+Asignar cada documento al tema con mayor probabilidad:
+
+```{r}
+#| label: clasificacion
+#| eval: true
+#| message: false
+#| warning: false
+
+lista_articulos_por_tema <- gammas_juve %>%
+  group_by(document) %>%
+  slice_max(gamma, n = 1)
+
+# Revisar clasificación
+lista_articulos_por_tema %>%
+  select(document, titulo, tema, gamma)
+```
+
+### Visualización: Composición temática
+
+```{r}
+#| label: grafica-gamma
+#| eval: true
+#| fig-width: 12
+#| fig-height: 6
+
+gammas_juve %>%
+  filter(document <= 10) %>%
+  ggplot(aes(x = reorder(titulo %>% str_wrap(10), gamma),
+             y = gamma,
+             fill = tema)) +
+  geom_col(color = "white", position = position_stack(reverse = TRUE)) +
+  labs(
+    title = "Composición temática de los primeros 10 artículos",
+    x = "Artículo",
+    y = "Proporción",
+    fill = "Tema"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+------------------------------------------------------------------------
+
+# Optimización del Número de Tópicos
+
+## El problema de k
+
+El número de tópicos (k) es un **hiperparámetro** que debemos elegir. ¿Cómo saber cuántos temas son óptimos?
+
+## Perplejidad
+
+La **perplejidad** es una métrica que evalúa qué tan bien el modelo predice los datos:
+
+-   **Perplejidad baja** = mejor ajuste
+-   **Perplejidad alta** = modelo pobre
+
+$$
+\text{Perplejidad} = \exp\left(-\frac{1}{N} \sum_{d=1}^{M} \log p(w_d)\right)
+$$
+
+**Donde:**
+
+-   $N$ = Número total de palabras en el corpus
+-   $M$ = Número total de documentos
+-   $w_d$ = Conjunto de palabras en el documento $d$
+-   $p(w_d)$ = Probabilidad que el modelo asigna a las palabras del documento $d$
+-   $\log$ = Logaritmo natural
+-   $\exp$ = Función exponencial
+
+La perplejidad mide, en esencia, cuán "sorprendido" está el modelo al ver nuevos datos. Un modelo con baja perplejidad predice bien las palabras de los documentos.
+
+## Grid Search
+
+Probamos múltiples valores de k y elegimos el que minimiza la perplejidad:
+
+```{r}
+#| label: optimizacion
+#| eval: true
+#| message: false
+#| warning: false
+
+# Definir rango de tópicos
+k_values <- seq(2, 25, by = 1)
+
+# Calcular perplejidad para cada k
+perplexity_values <- sapply(k_values, function(k) {
+  cat("Calculando modelo con k =", k, "\n")
+
+  lda_model <- LDA(
+    dtm_juve,
+    k = k,
+    method = "Gibbs",
+    control = list(
+      seed = 1111,
+      iter = 2000,      # Iteraciones
+      thin = 100,       # Thinning
+      burnin = 1000     # Burn-in
+    )
+  )
+
+  perplexity(lda_model, newdata = dtm_juve)
+})
+
+# Almacenar resultados
+perplexity_results <- tibble(
+  k = k_values,
+  perplexity = perplexity_values
+)
+```
+
+### Parámetros avanzados:
+
+-   **iter**: Número total de iteraciones (más = mejor convergencia)
+-   **thin**: Guardar cada n iteraciones (reduce autocorrelación)
+-   **burnin**: Descartar primeras n iteraciones (período de "calentamiento")
+
+## Visualización de resultados
+
+```{r}
+#| label: grafica-perplejidad
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5
+
+ggplot(perplexity_results, aes(x = k, y = perplexity)) +
+  geom_line(color = "blue", size = 1) +
+  geom_point(color = "red", size = 3) +
+  scale_x_continuous(breaks = k_values) +
+  labs(
+    title = "Perplejidad vs Número de Tópicos",
+    subtitle = "Buscar el 'codo' donde la perplejidad deja de disminuir significativamente",
+    x = "Número de Tópicos (k)",
+    y = "Perplejidad"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+```
+
+## Identificar k óptimo
+
+```{r}
+#| label: k-optimo
+#| eval: true
+
+optimal_k <- perplexity_results %>%
+  filter(perplexity == min(perplexity)) %>%
+  pull(k)
+
+cat("Número óptimo de tópicos:", optimal_k, "\n")
+cat("Perplejidad mínima:", min(perplexity_values), "\n")
+```
+
+## Modelo con k óptimo
+
+```{r}
+#| label: modelo-optimo
+#| eval: true
+#| fig-width: 12
+#| fig-height: 8
+
+lda_model_optimo <- LDA(
+  dtm_juve,
+  k = optimal_k,
+  method = "Gibbs",
+  control = list(
+    seed = 1111,
+    iter = 2000,
+    thin = 100,
+    burnin = 1000
+  )
+)
+
+# Visualizar resultados
+betas_optimo <- tidy(lda_model_optimo, matrix = "beta")
+
+betas_optimo %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10) %>%
+  ungroup() %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(x = term, y = beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~topic, scales = "free") +
+  coord_flip() +
+  scale_x_reordered() +
+  labs(
+    title = "Tópicos del modelo optimizado",
+    x = NULL,
+    y = "β"
+  ) +
+  theme_minimal()
+```
+
+------------------------------------------------------------------------
+
+# Consideraciones Finales
+
+## Balance entre métricas y practicidad
+
+::: callout-important
+## No todo es perplejidad
+
+Aunque la perplejidad es una métrica útil, **no es el único criterio**:
+
+1.  **Perplejidad baja** no siempre significa temas interpretables
+2.  Un **k muy alto** puede generar temas redundantes o difíciles de etiquetar
+3.  Un **k muy bajo** puede perder matices importantes
+
+**Recomendación:** Balancear perplejidad con interpretabilidad humana
+:::
+
+## Validación de temas
+
+Para validar que los temas tienen sentido:
+
+1.  **Revisar las palabras principales** de cada tema
+2.  **Leer documentos representativos** de cada tema
+3.  **Consultar con expertos** del dominio
+4.  **Comparar con clasificaciones existentes** (si las hay)
+
+------------------------------------------------------------------------
+
+# Conclusiones
+
+El modelado de tópicos con LDA es una herramienta poderosa para:
+
+-   Descubrir temas automáticamente en grandes colecciones de texto
+-   Organizar y clasificar documentos
+-   Identificar tendencias y patrones temáticos
+
+**Pasos clave del pipeline:**
+
+1.  Preprocesamiento riguroso del texto
+2.  Lematización para reducir dimensionalidad
+3.  Creación de matriz DTM
+4.  Ajuste del modelo LDA
+5.  Interpretación de matrices β y γ
+6.  Optimización de k mediante perplejidad
+
+**Limitaciones:**
+
+-   Requiere selección cuidadosa de k
+-   Interpretación de temas puede ser subjetiva
+-   Sensible a la calidad del preprocesamiento
+-   Asume que los documentos hablan de múltiples temas (mezcla)
+
+------------------------------------------------------------------------
+
+# Referencias
+
+-   Blei, D. M., Ng, A. Y., & Jordan, M. I. (2003). "Latent Dirichlet Allocation". *Journal of Machine Learning Research*, 3, 993-1022.
+-   Silge, J., & Robinson, D. (2017). *Text Mining with R: A Tidy Approach*. O'Reilly Media.
+-   Documentación de `topicmodels`: https://cran.r-project.org/web/packages/topicmodels/
+-   Documentación de `tidytext`: https://www.tidytextmining.com/
+
+------------------------------------------------------------------------
+
+# Apéndice: Código Completo
+
+```{r}
+#| label: codigo-completo
+#| eval: false
+#| code-fold: true
+
+# Ver archivo: código_visto_en_clase.R
+# para el código completo ejecutable
+```
+
+------------------------------------------------------------------------
+
+::: callout-tip
+## Para profundizar
+
+-   Experimenta con diferentes valores de k manualmente
+-   Prueba con diferentes conjuntos de stopwords
+-   Compara LDA con otros algoritmos (NMF, LSA)
+-   Explora modelos más recientes basados en transformers
+:::
