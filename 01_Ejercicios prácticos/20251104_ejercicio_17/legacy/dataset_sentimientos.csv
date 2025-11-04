@@ -1,0 +1,61 @@
+id,contexto,texto,etiqueta_real,tipo_caso,pred_lexicon,pred_emb_local,pred_emb_openai,pred_llama31,pred_qwen25,notas
+1,Restaurante,"La comida estuvo deliciosa, el servicio excelente y el ambiente perfecto. Totalmente recomendado.",positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+2,Restaurante,Increíble experiencia culinaria. Los platillos superaron mis expectativas. Volveré sin duda.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+3,Restaurante,Excelente atención del personal y la comida llegó rápido y caliente. Muy satisfecho.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+4,Restaurante,"Me encantó todo, desde la entrada hasta el postre. Precios justos y gran calidad.",positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+5,Restaurante,¡Wow! El mejor restaurante al que he ido en mucho tiempo. Todo perfecto.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+6,Restaurante,"Pésimo servicio, la comida llegó fría y el mesero fue grosero. No vuelvo más.",negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+7,Restaurante,Una hora esperando y cuando llegó la comida estaba horrible. Muy decepcionado.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+8,Restaurante,Carísimo para lo que ofrecen. La comida es mediocre y el lugar estaba sucio.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+9,Restaurante,La peor experiencia gastronómica de mi vida. No lo recomiendo para nada.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+10,Restaurante,El personal parecía molesto por atendernos. La comida sin sabor y cara.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+11,Restaurante,"Un restaurante normal. La comida está bien, nada extraordinario pero cumple.",neutro,claro_neutro,NA,NA,NA,NA,NA,NA
+12,Restaurante,"Es un lugar promedio. Ni bueno ni malo, sirve para salir del paso.",neutro,claro_neutro,NA,NA,NA,NA,NA,NA
+13,Restaurante,"Genial, justo lo que quería: esperar dos horas para comer algo frío.",negativo,sarcasmo,NA,NA,NA,NA,NA,NA
+14,Restaurante,"Qué maravilla de restaurante, me encanta pagar mucho por comida mala.",negativo,sarcasmo,NA,NA,NA,NA,NA,NA
+15,Restaurante,La comida está rica pero el servicio es lentísimo y los precios muy altos.,negativo,mixto,NA,NA,NA,NA,NA,NA
+16,Producto Tech,"Excelente producto, funciona perfecto y llegó antes de tiempo. Muy recomendable.",positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+17,Producto Tech,La mejor compra que he hecho. Calidad increíble y precio justo.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+18,Producto Tech,Superó mis expectativas por completo. Funciona de maravilla y es muy intuitivo.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+19,Producto Tech,100% satisfecho con mi compra. Llevo un mes usándolo sin problemas.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+20,Producto Tech,Producto de alta calidad. Vale cada peso. Lo recomiendo ampliamente.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+21,Producto Tech,"No funciona como prometen. Me arrepiento de la compra, es una estafa.",negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+22,Producto Tech,"Pésima calidad, se descompuso a la semana. No lo compren.",negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+23,Producto Tech,Horrible producto. No sirve para nada y el soporte técnico es inexistente.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+24,Producto Tech,Basura total. No cumple con ninguna de las especificaciones anunciadas.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+25,Producto Tech,Me llegó defectuoso y nadie responde para hacer la devolución. Fatal.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+26,Producto Tech,Es un producto básico que cumple su función. Nada especial pero funciona.,neutro,claro_neutro,NA,NA,NA,NA,NA,NA
+27,Producto Tech,"Ni bueno ni malo. Hace lo que tiene que hacer, sin más.",neutro,claro_neutro,NA,NA,NA,NA,NA,NA
+28,Producto Tech,"Perfecto, me encanta cuando los productos no funcionan al sacarlos de la caja.",negativo,sarcasmo,NA,NA,NA,NA,NA,NA
+29,Producto Tech,"Fantástico, justo necesitaba algo que se rompiera en una semana.",negativo,sarcasmo,NA,NA,NA,NA,NA,NA
+30,Producto Tech,El producto es bueno pero llegó tarde y el empaque venía dañado.,neutro,mixto,NA,NA,NA,NA,NA,NA
+31,Servicio,Servicio impecable. Muy profesionales y resolvieron mi problema rápidamente.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+32,Servicio,Excelente atención al cliente. Me ayudaron en todo momento. Muy agradecido.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+33,Servicio,Súper eficientes y amables. El mejor servicio que he recibido.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+34,Servicio,Quedé muy satisfecho con el trabajo realizado. Altamente recomendable.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+35,Servicio,Profesionales de primera. Cumplieron todo lo prometido y más.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+36,Servicio,Pésimo servicio. No resolvieron nada y además fueron groseros.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+37,Servicio,Nunca contestaron mis llamadas. Servicio al cliente inexistente. Terrible.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+38,Servicio,Me cobraron de más y cuando reclamé me colgaron el teléfono. Indignante.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+39,Servicio,El peor servicio que he contratado. Llegaron tarde y el trabajo quedó mal.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+40,Servicio,No lo recomiendo. Son poco profesionales y el servicio es malísimo.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+41,Servicio,Servicio regular. Cumplieron pero sin nada destacable.,neutro,claro_neutro,NA,NA,NA,NA,NA,NA
+42,Servicio,"Normal. Hicieron lo básico que pedí, nada más.",neutro,claro_neutro,NA,NA,NA,NA,NA,NA
+43,Servicio,"Increíble servicio, me encanta que me dejen esperando tres horas sin avisar.",negativo,sarcasmo,NA,NA,NA,NA,NA,NA
+44,Servicio,"Qué atención tan maravillosa, ignorar a los clientes es su especialidad.",negativo,sarcasmo,NA,NA,NA,NA,NA,NA
+45,Servicio,El trabajo quedó bien pero tardaron el doble de lo acordado.,neutro,mixto,NA,NA,NA,NA,NA,NA
+46,App/Software,"App excelente, muy intuitiva y rápida. La uso todos los días.",positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+47,App/Software,La mejor aplicación en su categoría. Funciona perfecto y sin bugs.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+48,App/Software,Me encanta esta app. Interface limpia y cumple perfectamente su función.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+49,App/Software,Súper útil y bien diseñada. Vale la pena la versión premium.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+50,App/Software,Aplicación fantástica. Ha mejorado mucho mi productividad.,positivo,claro_positivo,NA,NA,NA,NA,NA,NA
+51,App/Software,App horrible. Se cuelga constantemente y pierde mi información.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+52,App/Software,No sirve. Llena de anuncios y funciona muy mal. La desinstalé.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+53,App/Software,Pésima experiencia. Crashea todo el tiempo y consume mucha batería.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+54,App/Software,Basura de aplicación. No funciona ni la mitad de las funciones.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+55,App/Software,La peor app que he usado. Interface confusa y llena de errores.,negativo,claro_negativo,NA,NA,NA,NA,NA,NA
+56,App/Software,App normal. Hace lo básico pero nada impresionante.,neutro,claro_neutro,NA,NA,NA,NA,NA,NA
+57,App/Software,Está bien para uso ocasional. Ni buena ni mala.,neutro,claro_neutro,NA,NA,NA,NA,NA,NA
+58,App/Software,"Genial, me fascina cuando una app se cierra sola cada cinco minutos.",negativo,sarcasmo,NA,NA,NA,NA,NA,NA
+59,App/Software,"Perfecta, justo lo que buscaba: pagar por una app que no funciona.",negativo,sarcasmo,NA,NA,NA,NA,NA,NA
+60,App/Software,La app tiene buenas funciones pero es muy lenta y tiene muchos anuncios.,negativo,mixto,NA,NA,NA,NA,NA,NA
