@@ -217,7 +217,7 @@ cat("--- ANALOGÍA 2: Francia - París + Colombia = ? ---\n\n")
 
 palabras_geografia <- c("Francia", "París", "Colombia", "Bogotá",
                         "España", "Madrid", "México", "Ciudad de México",
-                        "Argentina", "Buenos Aires", "Chile", "Santiago")
+                        "Argentina", "Buenos Aires", "Chile", "Santiago", "Roma")
 
 cat("Generando embeddings para geografía...\n")
 vocab_geo <- tibble(palabra = palabras_geografia) %>%
@@ -227,16 +227,17 @@ francia <- vocab_geo %>% filter(palabra == "Francia") %>% pull(embedding) %>% .[
 paris <- vocab_geo %>% filter(palabra == "París") %>% pull(embedding) %>% .[[1]]
 colombia <- vocab_geo %>% filter(palabra == "Colombia") %>% pull(embedding) %>% .[[1]]
 argentina <- vocab_geo %>% filter(palabra == "Argentina") %>% pull(embedding) %>% .[[1]]
+roma <-  vocab_geo %>% filter(palabra == "Roma") %>% pull(embedding) %>% .[[1]]
 
 # Calcular: Francia - París + Colombia
-resultado_geo <- argentina + paris
+resultado_geo <- argentina + roma
   # francia - paris + colombia
 
 cat("\nCalculando: Francia - París + Colombia...\n")
 cat("(Esperamos encontrar: Bogotá)\n")
 cat("Palabras más cercanas al resultado:\n\n")
 resultados_geo <- encontrar_mas_cercano(resultado_geo, vocab_geo,
-                                        excluir = c("Francia", "París", "Colombia", "Argentina"))
+                                        excluir = c("Francia", "París", "Roma", "Argentina"))
 print(resultados_geo, n = 5)
 
 cat("\n✨ ¡El modelo entiende la relación capital-país!\n\n")
